@@ -1,6 +1,6 @@
 [package]
 name = "stdin_or_clipboard"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2021"
 description = "Get text from stdin or clipboard"
 
