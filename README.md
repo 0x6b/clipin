@@ -6,9 +6,18 @@ I often found myself writing code to retrieve text from the clipboard or stdin, 
 
 ## Usage
 
+Note: returned text is trimmed (leading/trailing whitespace removed). When stdin is used,
+`clipboard` is `None`.
+
+Note: `async` and `sync` are mutually exclusive; enable exactly one.
+
 ### Asynchronously
 
-The `async` feature is enabled by default.
+Enable the `async` feature explicitly.
+
+```sh
+cargo add stdin_or_clipboard --features async
+```
 
 ```rust
 use stdin_or_clipboard::get_text_from_stdin_or_clipboard;
@@ -22,10 +31,14 @@ async fn main() {
 
 ### Synchronously
 
-With the `sync` feature enabled, you can use this crate synchronously.
+Enable the `sync` feature explicitly.
+
+```sh
+cargo add stdin_or_clipboard --features sync
+```
 
 ```rust
-use stdin_or_clipboard::sync::get_text_from_stdin_or_clipboard;
+use stdin_or_clipboard::get_text_from_stdin_or_clipboard;
 
 fn main() {
     let (text, clipboard) = get_text_from_stdin_or_clipboard().unwrap();
