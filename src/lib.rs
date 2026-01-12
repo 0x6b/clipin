@@ -1,9 +1,14 @@
 //! Get text from stdin or clipboard.
 //!
-//! Returns trimmed text and optionally the clipboard instance. When stdin is used, clipboard is
-//! `None`.
+//! This crate provides a single function [`get`] that reads text from either stdin (if piped) or
+//! the system clipboard (if running in a terminal). Returns trimmed text and optionally a
+//! [`Clipboard`] instance for further operations.
 //!
-//! Enable exactly one feature: `async` or `sync`.
+//! # Features
+//!
+//! Enable exactly one feature:
+//! - `sync` - Synchronous API
+//! - `async` - Asynchronous API (requires tokio runtime)
 
 #[cfg(feature = "sync")]
 use std::io::Read;
@@ -15,10 +20,13 @@ use thiserror::Error;
 #[cfg(feature = "async")]
 use tokio::io::{stdin as async_stdin, AsyncReadExt};
 
+/// Errors that can occur when reading from stdin or clipboard.
 #[derive(Error, Debug)]
 pub enum Error {
+    /// Failed to access or read from the system clipboard.
     #[error("clipboard: {0}")]
     Clipboard(#[from] arboard::Error),
+    /// Failed to read from stdin.
     #[error("io: {0}")]
     Io(#[from] io::Error),
 }
@@ -52,8 +60,20 @@ impl Clipboard {
 #[cfg(all(feature = "async", feature = "sync"))]
 compile_error!("features \"async\" and \"sync\" are mutually exclusive; enable exactly one.");
 
+/// Gets text from stdin or clipboard.
+///
+/// If stdin is a terminal (not piped), reads from the system clipboard and returns the
+/// [`Clipboard`] instance for further operations. If stdin is piped, reads from stdin
+/// and returns `None` for the clipboard.
+///
+/// The returned text is trimmed of leading and trailing whitespace.
+///
+/// # Errors
+///
+/// Returns [`Error::Clipboard`] if clipboard access fails, or [`Error::Io`] if reading
+/// from stdin fails.
 #[cfg(feature = "sync")]
-pub fn get_text_from_stdin_or_clipboard() -> Result<(String, Option<Clipboard>), Error> {
+pub fn get() -> Result<(String, Option<Clipboard>), Error> {
     if stdin().is_terminal() {
         let mut cb = Clipboard(arboard::Clipboard::new()?);
         Ok((cb.get_text()?.trim().to_owned(), Some(cb)))
@@ -64,8 +84,20 @@ pub fn get_text_from_stdin_or_clipboard() -> Result<(String, Option<Clipboard>),
     }
 }
 
+/// Gets text from stdin or clipboard.
+///
+/// If stdin is a terminal (not piped), reads from the system clipboard and returns the
+/// [`Clipboard`] instance for further operations. If stdin is piped, reads from stdin
+/// and returns `None` for the clipboard.
+///
+/// The returned text is trimmed of leading and trailing whitespace.
+///
+/// # Errors
+///
+/// Returns [`Error::Clipboard`] if clipboard access fails, or [`Error::Io`] if reading
+/// from stdin fails.
 #[cfg(feature = "async")]
-pub async fn get_text_from_stdin_or_clipboard() -> Result<(String, Option<Clipboard>), Error> {
+pub async fn get() -> Result<(String, Option<Clipboard>), Error> {
     if stdin().is_terminal() {
         let mut cb = Clipboard(arboard::Clipboard::new()?);
         Ok((cb.get_text()?.trim().to_owned(), Some(cb)))
