@@ -1,19 +1,12 @@
 # stdin_or_clipboard
 
-Get a text from the stdin or a clipboard.
-
-I often found myself writing code to retrieve text from the clipboard or stdin, so I created this small crate to make my life easier. However, you might want to consider using a more robust option available out here and there.
+Get text from stdin or clipboard.
 
 ## Usage
 
-Note: returned text is trimmed (leading/trailing whitespace removed). When stdin is used,
-`clipboard` is `None`.
+Enable exactly one feature: `async` or `sync`. Returns trimmed text and optionally the clipboard instance (clipboard is `None` when stdin is used).
 
-Note: `async` and `sync` are mutually exclusive; enable exactly one.
-
-### Asynchronously
-
-Enable the `async` feature explicitly.
+### Async
 
 ```sh
 cargo add stdin_or_clipboard --features async
@@ -29,9 +22,7 @@ async fn main() {
 }
 ```
 
-### Synchronously
-
-Enable the `sync` feature explicitly.
+### Sync
 
 ```sh
 cargo add stdin_or_clipboard --features sync

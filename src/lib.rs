@@ -1,13 +1,15 @@
-//! Get text from stdin or the clipboard.
+//! Get text from stdin or clipboard.
 //!
-//! Note: returned text is trimmed (leading/trailing whitespace removed). When stdin is used,
-//! the clipboard value is `None`.
+//! Returns trimmed text and optionally the clipboard instance. When stdin is used, clipboard is
+//! `None`.
 //!
-//! Note: `async` and `sync` are mutually exclusive; enable exactly one feature.
+//! Enable exactly one feature: `async` or `sync`.
 
-use std::io::{self, stdin, IsTerminal};
+use std::io;
 #[cfg(feature = "sync")]
 use std::io::Read;
+#[cfg(any(feature = "async", feature = "sync"))]
+use std::io::{stdin, IsTerminal};
 
 pub use arboard::Clipboard;
 use thiserror::Error;
