@@ -1,8 +1,8 @@
 [package]
-name = "stdin_or_clipboard"
+name = "clipin"
 version = "0.7.0"
 edition = "2021"
-description = "Get text from stdin or clipboard"
+description = "Get text from clipboard or stdin"
 
 [dependencies]
 # Read Clipboard

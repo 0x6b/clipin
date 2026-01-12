@@ -7,12 +7,12 @@ compile_error!("enable a feature: cargo run --example basic --features async|syn
 #[cfg(feature = "async")]
 #[tokio::main]
 async fn main() {
-    let (text, _clipboard) = stdin_or_clipboard::get().await.unwrap();
+    let (text, _clipboard) = clipin::get().await.unwrap();
     println!("{text}");
 }
 
 #[cfg(feature = "sync")]
 fn main() {
-    let (text, _clipboard) = stdin_or_clipboard::get().unwrap();
+    let (text, _clipboard) = clipin::get().unwrap();
     println!("{text}");
 }

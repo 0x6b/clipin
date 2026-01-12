@@ -1,7 +1,7 @@
-//! Get text from stdin or clipboard.
+//! Get text from clipboard or stdin.
 //!
-//! This crate provides a single function [`get`] that reads text from either stdin (if piped) or
-//! the system clipboard (if running in a terminal). Returns trimmed text and optionally a
+//! This crate provides a single function [`get`] that reads text from the system clipboard
+//! (if running in a terminal) or stdin (if piped). Returns trimmed text and optionally a
 //! [`Clipboard`] instance for further operations.
 //!
 //! # Features
@@ -60,11 +60,11 @@ impl Clipboard {
 #[cfg(all(feature = "async", feature = "sync"))]
 compile_error!("features \"async\" and \"sync\" are mutually exclusive; enable exactly one.");
 
-/// Gets text from stdin or clipboard.
+/// Gets text from clipboard or stdin.
 ///
-/// If stdin is a terminal (not piped), reads from the system clipboard and returns the
-/// [`Clipboard`] instance for further operations. If stdin is piped, reads from stdin
-/// and returns `None` for the clipboard.
+/// Reads from the system clipboard if stdin is a terminal, returning the [`Clipboard`]
+/// instance for further operations. If stdin is piped, reads from stdin and returns
+/// `None` for the clipboard.
 ///
 /// The returned text is trimmed of leading and trailing whitespace.
 ///
@@ -84,11 +84,11 @@ pub fn get() -> Result<(String, Option<Clipboard>), Error> {
     }
 }
 
-/// Gets text from stdin or clipboard.
+/// Gets text from clipboard or stdin.
 ///
-/// If stdin is a terminal (not piped), reads from the system clipboard and returns the
-/// [`Clipboard`] instance for further operations. If stdin is piped, reads from stdin
-/// and returns `None` for the clipboard.
+/// Reads from the system clipboard if stdin is a terminal, returning the [`Clipboard`]
+/// instance for further operations. If stdin is piped, reads from stdin and returns
+/// `None` for the clipboard.
 ///
 /// The returned text is trimmed of leading and trailing whitespace.
 ///
