@@ -1,6 +1,6 @@
 # clipin
 
-A Rust libraty to get text from clipboard or stdin.
+A Rust library to get text from clipboard or stdin.
 
 ## Usage
 

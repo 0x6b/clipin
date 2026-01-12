@@ -2,7 +2,14 @@
 name = "clipin"
 version = "0.8.0"
 edition = "2021"
-description = "Get text from clipboard or stdin"
+authors = ["kaoru <k@warpnine.io>"]
+license = "MIT"
+description = "A Rust library to get text from clipboard or stdin"
+homepage = "https://github.com/0x6b/clipin"
+repository = "https://github.com/0x6b/clipin"
+documentation = "https://docs.rs/clipin"
+readme = "README.md"
+keywords = ["clipboard", "stdin", "input", "text"]
 
 [dependencies]
 # Read Clipboard
