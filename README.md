@@ -1,6 +1,6 @@
-# stdin_or_clipboard
+# clipin
 
-Get text from stdin or clipboard.
+A Rust libraty to get text from clipboard or stdin.
 
 ## Usage
 
@@ -9,15 +9,13 @@ Enable exactly one feature: `async` or `sync`. Returns trimmed text and optional
 ### Async
 
 ```sh
-cargo add stdin_or_clipboard --features async
+cargo add clipin --features async
 ```
 
 ```rust
-use stdin_or_clipboard::get_text_from_stdin_or_clipboard;
-
 #[tokio::main]
 async fn main() {
-    let (text, clipboard) = get_text_from_stdin_or_clipboard().await.unwrap();
+    let (text, clipboard) = clipin::get().await.unwrap();
     println!("{text}");
 }
 ```
@@ -25,14 +23,12 @@ async fn main() {
 ### Sync
 
 ```sh
-cargo add stdin_or_clipboard --features sync
+cargo add clipin --features sync
 ```
 
 ```rust
-use stdin_or_clipboard::get_text_from_stdin_or_clipboard;
-
 fn main() {
-    let (text, clipboard) = get_text_from_stdin_or_clipboard().unwrap();
+    let (text, clipboard) = clipin::get().unwrap();
     println!("{text}");
 }
 ```
