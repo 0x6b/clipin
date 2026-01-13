@@ -4,7 +4,7 @@ A Rust library to get text from clipboard or stdin.
 
 ## Usage
 
-Enable exactly one feature: `async` or `sync`. Returns trimmed text and optionally the clipboard instance (clipboard is `None` when stdin is used).
+Enable exactly one feature: `async` or `sync`. Returns trimmed text and optionally the clipboard instance if available.
 
 ### Async
 
