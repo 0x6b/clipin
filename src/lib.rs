@@ -63,8 +63,8 @@ compile_error!("features \"async\" and \"sync\" are mutually exclusive; enable e
 /// Gets text from clipboard or stdin.
 ///
 /// Reads from the system clipboard if stdin is a terminal, returning the [`Clipboard`]
-/// instance for further operations. If stdin is piped, reads from stdin and returns
-/// `None` for the clipboard.
+/// instance for further operations. If stdin is piped, reads from stdin and attempts
+/// to return a [`Clipboard`] instance if available.
 ///
 /// The returned text is trimmed of leading and trailing whitespace.
 ///
@@ -80,15 +80,15 @@ pub fn get() -> Result<(String, Option<Clipboard>), Error> {
     } else {
         let mut buf = String::new();
         stdin().read_to_string(&mut buf)?;
-        Ok((buf.trim().to_owned(), None))
+        Ok((buf.trim().to_owned(), arboard::Clipboard::new().ok().map(Clipboard)))
     }
 }
 
 /// Gets text from clipboard or stdin.
 ///
 /// Reads from the system clipboard if stdin is a terminal, returning the [`Clipboard`]
-/// instance for further operations. If stdin is piped, reads from stdin and returns
-/// `None` for the clipboard.
+/// instance for further operations. If stdin is piped, reads from stdin and attempts
+/// to return a [`Clipboard`] instance if available.
 ///
 /// The returned text is trimmed of leading and trailing whitespace.
 ///
@@ -104,6 +104,6 @@ pub async fn get() -> Result<(String, Option<Clipboard>), Error> {
     } else {
         let mut buf = String::new();
         async_stdin().read_to_string(&mut buf).await?;
-        Ok((buf.trim().to_owned(), None))
+        Ok((buf.trim().to_owned(), arboard::Clipboard::new().ok().map(Clipboard)))
     }
 }
